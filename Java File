@@ -1,30 +1,28 @@
 import java.util.*;
 public class Tic_tac_toe
 {
-    public static int getRandomElement(ArrayList<Integer> list)
+    public static int get_Random(ArrayList<Integer> List)
     {
         Random rand= new Random();
-        return list.get(rand.nextInt(list.size()));
+        return List.get(rand.nextInt(List.size()));
     }
     
-    public static int getMove(ArrayList<Integer> user_input, ArrayList<Integer> element_rem)
+    public static int Next_Move(ArrayList<Integer> User_input, ArrayList<Integer> Remaining_element)
     {
-        int[] useri = new int[user_input.size()];
+        int[] Temp_user = new int[User_input.size()];
         
-        for(int i=0;i<user_input.size();i++)
+        for(int i=0;i<User_input.size();i++)
+             Temp_user[i]= User_input.get(i);
+        
+        
+        Arrays.sort(Temp_user);
+        
+        for(int i=0;i<Temp_user.length-1;i++)
         {
-            useri[i]= user_input.get(i);
-        }
-        
-        Arrays.sort(useri);
-        
-        for(int i=0;i<useri.length-1;i++)
-        {
-            int j=i+1;
-            int move = 15 - (useri[i]+useri[j]);
+            int Step = 15 - (Temp_user[i]+Temp_user[i+1]);
             
-            if(element_rem.contains(move))
-            return move;
+            if(Remaining_element.contains(Step))
+            return Step;
             
         }
         
@@ -32,121 +30,105 @@ public class Tic_tac_toe
     }
     
 	public static void main(String[] args) {
-		int[][] tic = {{2,7,6},{2,9,4},{2,5,8},{7,5,3},{6,7,2},{6,1,8},{6,5,4},
-		               {7,2,6},{7,6,2},{6,4,5},{6,8,1},{6,2,7},{2,6,7},{2,4,9},
-		               {2,8,5},{9,2,4},{9,4,2},{9,5,1},{9,1,5},{5,7,3},{5,3,7},
-		               {5,2,8},{5,8,2},{5,1,9},{5,9,1},{5,4,6},{5,6,4},{1,6,8},
-		               {1,8,6},{1,5,9},{1,9,5},{4,9,2},{4,2,9},{4,3,8},{4,8,3},
-		               {4,5,6},{4,6,5},{3,5,7},{3,7,5},{3,4,8},{3,8,4},{8,1,6},
-		               {8,6,1},{8,5,2},{8,2,5},{8,3,4},{8,4,3}};
+		int[][] Combination = {{2,7,6},{2,9,4},{2,5,8},{7,5,3},{6,7,2},{6,1,8},{6,5,4},
+		                     {7,2,6},{7,6,2},{6,4,5},{6,8,1},{6,2,7},{2,6,7},{2,4,9},
+		                     {2,8,5},{9,2,4},{9,4,2},{9,5,1},{9,1,5},{5,7,3},{5,3,7},
+		                    {5,2,8},{5,8,2},{5,1,9},{5,9,1},{5,4,6},{5,6,4},{1,6,8},
+		                    {1,8,6},{1,5,9},{1,9,5},{4,9,2},{4,2,9},{4,3,8},{4,8,3},
+		                    {4,5,6},{4,6,5},{3,5,7},{3,7,5},{3,4,8},{3,8,4},{8,1,6},
+		                    {8,6,1},{8,5,2},{8,2,5},{8,3,4},{8,4,3}};
 		
-		int iLength = tic.length;
-		int comp_move=0;
-		ArrayList<ArrayList<Integer>> comb_list = new ArrayList<>(iLength);
-		
-      
-            for (int i = 0; i < iLength; ++i) {
-                   int jLength = tic[0].length;
-                   comb_list.add(new ArrayList(jLength));
-                   for (int j = 0; j < jLength; ++j) {
-                      comb_list.get(i).add(tic[i][j]);
-                    }
+		ArrayList<ArrayList<Integer>> Combination_list = new ArrayList<>(Combination.length);
+            for (int i = 0; i < Combination.length; ++i) 
+            {
+                   Combination_list.add(new ArrayList(Combination[0].length));
+                   for (int j = 0; j < Combination[0].length; ++j) 
+                    Combination_list.get(i).add(Combination[i][j]);
+                    
             }
 		
-		
-		
-		int tot_moves=0;
-		
 		//user and Computer input's list
-		ArrayList<Integer> user_input = new ArrayList();
-		ArrayList<Integer> comp_input = new ArrayList();
+		ArrayList<Integer> User_input = new ArrayList();
+		ArrayList<Integer> Computer_input = new ArrayList();
 		
-		ArrayList<Integer> element_used = new ArrayList();
-		ArrayList<Integer> element_rem = new ArrayList();
+		ArrayList<Integer> Used_element = new ArrayList();
+		ArrayList<Integer> Remaining_element = new ArrayList();
 		
-		element_rem.add(2);
-		element_rem.add(7);
-		element_rem.add(6);
-		element_rem.add(9);	
-		element_rem.add(5);	
-		element_rem.add(1);	
-		element_rem.add(4);	
-		element_rem.add(3);	
-		element_rem.add(8);	
+		Remaining_element.add(2);
+		Remaining_element.add(7);
+		Remaining_element.add(6);
+		Remaining_element.add(9);	
+		Remaining_element.add(5);	
+		Remaining_element.add(1);	
+		Remaining_element.add(4);	
+		Remaining_element.add(3);	
+		Remaining_element.add(8);	
 		
 		Scanner sc = new Scanner(System.in);
-		int user_score=0;
-		int com_score=0;
-		
+		int User_score=0;
+		int Computer_score=0;
+		int Total_moves=0;
+		int Computer_moves=0;
 		while(true)
 		{
-		    
-		    //User's choice
 		    System.out.println("User enter your choice:");
 		    int n = sc.nextInt();
 		    
-		    if(element_rem.contains(n))
-		    user_score+=n;
+		    if(Remaining_element.contains(n))
+		    User_score+=n;
 		    
-		    user_input.add(n);
+		    User_input.add(n);
 		    
-		    element_rem.remove(new Integer(n));
-		    
-		    //user's win condition
-		    if(comb_list.contains(user_input))
+		  Remaining_element.remove(new Integer(n));
+
+		    if(Combination_list.contains(User_input))
 		    {
 		        System.out.println("User Won");
 		        break;
 		    }
 
-		    if(++tot_moves == 9){
-		        break;
-		    }
+		    if(++Total_moves == 9)
+                break;
+		   
 		    
-		    int num1;
 		    System.out.println("Computer's choice is:");
-		    
-		    if(tot_moves == 1)
-		    num1= getRandomElement(element_rem);
+		    int num1;
+		    if(Total_moves== 1)
+		     num1= get_Random(Remaining_element);
 		    
 		    else
 		    {
-		        int val_win = 15 - com_score;
-		        int val_def = 15 - user_score;
-		         if(element_rem.contains(val_win) && comp_move>1)
-		         {
-		             num1 = val_win;
-		         }
+		        int val_win = 15 - Computer_score;
+		        int val_def = 15 - User_score;
+		         if(Remaining_element.contains(val_win) && Computer_moves>1)
+                 num1 = val_win;
 		         
-		         else if(element_rem.contains(val_def))
-		         {
+		         else if(Remaining_element.contains(val_def))
 		             num1 = val_def;
-		         }
 		         
-		         else if(comp_move>2)
-		         {
-		             num1 = getMove(user_input,element_rem);
-		         }
+		         else if(Computer_moves>2)
+                 num1 = Next_Move(User_input,Remaining_element);
 		         
-		         else{
-		             num1 = getRandomElement(element_rem);
-		         }
+		         else
+		             num1 = get_Random(Remaining_element);
+		         
 		    }
 		    
-		    comp_move++;
+		    Computer_moves++;
 		    System.out.println(num1);
-		    com_score+=num1;
-		    comp_input.add(num1);
-		    element_rem.remove(new Integer(num1));
+		    Computer_score+=num1;
+		    Computer_input.add(num1);
+		    Remaining_element.remove(new Integer(num1));
 		    
-		     if(comb_list.contains(comp_input))
+		     if(Combination_list.contains(Computer_input))
 		    {
 		        System.out.println("Computer Won");
 		        break;
 		    }
 		    
-		    System.out.println(user_score+" "+com_score+" "+element_rem.toString());
-		    if(++tot_moves == 9){
+		    System.out.println(User_score+" "+Computer_score+" "+Remaining_element.toString());
+		    if(++Total_moves == 9)
+		    {
 		        System.out.println("Match Draw");
 		        break;
 		    }
